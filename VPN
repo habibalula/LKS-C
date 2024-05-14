@@ -1,0 +1,23 @@
+port 1194
+proto udp
+dev tun
+
+ca /etc/openvpn/sitetunnel/ca.crt
+cert /etc/openvpn/sitetunnel/server.crt
+key /etc/openvpn/sitetunnel/server.key
+dh /etc/openvpn/sitetunnel/dh.pem
+
+server 10.250.1.0 255.255.255.0
+
+# Routing untuk setiap subnet
+push "route 10.200.2.0 255.255.255.0"  # Karimata Network
+push "route 10.196.10.0 255.255.255.0"  # Lombok Network
+push "route 45.8.17.0 255.255.255.0"    # Malaka Network
+
+keepalive 10 120
+persist-key
+persist-tun
+
+status /var/log/openvpn-status.log
+log /var/log/openvpn.log
+verb 3
